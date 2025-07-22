@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+// Basic
+
 type Node interface {
 	TokenLiteral() string
 	String() string
@@ -20,6 +22,8 @@ type Expression interface {
 	Node
 	expressionNode()
 }
+
+// Program
 
 type Program struct {
 	Statements []Statement
@@ -41,6 +45,8 @@ func (p *Program) String() string {
 	}
 	return out.String()
 }
+
+// LetStatement
 
 type LetStatement struct {
 	Token token.Token
@@ -65,6 +71,8 @@ func (ls *LetStatement) String() string {
 	return out.String()
 }
 
+// Identifier
+
 type Identifier struct {
 	Token token.Token
 	Value string
@@ -73,6 +81,8 @@ type Identifier struct {
 func (i *Identifier) expressionNode()      {}
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 func (i *Identifier) String() string       { return i.Value }
+
+// ReturnStatement
 
 type ReturnStatement struct {
 	Token       token.Token
@@ -93,6 +103,8 @@ func (rs *ReturnStatement) String() string {
 	return out.String()
 }
 
+// ExpressionStatement
+
 type ExpressionStatement struct {
 	Token      token.Token // the first token of the expression
 	Expression Expression
@@ -108,6 +120,8 @@ func (es *ExpressionStatement) String() string {
 	return ""
 }
 
+// IntegerLiteral
+
 type IntegerLiteral struct {
 	Token token.Token
 	Value int64
@@ -116,6 +130,8 @@ type IntegerLiteral struct {
 func (il *IntegerLiteral) expressionNode()      {}
 func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
 func (il *IntegerLiteral) String() string       { return il.Token.Literal }
+
+// PrefixExpression
 
 type PrefixExpression struct {
 	Token    token.Token
@@ -133,6 +149,8 @@ func (pe *PrefixExpression) String() string {
 	out.WriteString(")")
 	return out.String()
 }
+
+// InfixExpression
 
 type InfixExpression struct {
 	Token    token.Token
@@ -153,6 +171,8 @@ func (ie *InfixExpression) String() string {
 	return out.String()
 }
 
+// Boolean
+
 type Boolean struct {
 	Token token.Token
 	Value bool
@@ -161,6 +181,8 @@ type Boolean struct {
 func (b *Boolean) expressionNode()      {}
 func (b *Boolean) TokenLiteral() string { return b.Token.Literal }
 func (b *Boolean) String() string       { return b.Token.Literal }
+
+// IfExpression
 
 type IfExpression struct {
 	Token       token.Token // The 'if' token
@@ -186,6 +208,8 @@ func (ie *IfExpression) String() string {
 	return out.String()
 }
 
+// BlockStatement
+
 type BlockStatement struct {
 	Token      token.Token // the { token
 	Statements []Statement
@@ -202,6 +226,8 @@ func (bs *BlockStatement) String() string {
 
 	return out.String()
 }
+
+// FunctionLiteral
 
 type FunctionLiteral struct {
 	Token      token.Token // the 'fn' token
@@ -226,6 +252,8 @@ func (fl *FunctionLiteral) String() string {
 	out.WriteString(fl.Body.String())
 	return out.String()
 }
+
+// CallExpression
 
 type CallExpression struct {
 	Token     token.Token // The '(' token
